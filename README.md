@@ -3,3 +3,6 @@ como principiante en prgramacion con python, he creado esta herramineta donde pu
 
 Utiliza esta herramienta con responsabilidad, nadie se hara cargo de las cosas indevidas que haces con ella
 
+### Clonar el repositorio
+```sh
+git clone https://github.com/usuario/proyecto.git
