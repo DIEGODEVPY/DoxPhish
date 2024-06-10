@@ -3,6 +3,11 @@ como principiante en prgramacion con python, he creado esta herramineta donde pu
 
 Utiliza esta herramienta con responsabilidad, nadie se hara cargo de las cosas indevidas que haces con ella
 
-### Clonar el repositorio
+### Clonar el repositorio para termux
 ```sh
-git clone https://github.com/usuario/proyecto.git
+pkg update && pkg upgrade -y
+pkg install git -y
+pkg install python -y
+git clone https://github.com/DIEGODEVPY/DoxPhish
+cd DoxPhish
+python DoxPhish.py
