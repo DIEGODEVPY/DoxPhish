@@ -14,7 +14,7 @@ try:
 except ModuleNotFoundError:
     os.system('pip install pystyle')
     os.system('pip install requests')
-
+    
 import platform
 import sys
 import time 
@@ -45,9 +45,9 @@ purple = "\033[96m"
 reset = "\033[0m"
 
 def obtener_informacion_coordenada(latitud, longitud):
-    url = f"https://nominatim.openstreetmap.org/reverse?lat={latitud}&lon={longitud}&format=json"
+    url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={latitud}&lon={longitud}"
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:87.0) Gecko/20100101 Firefox/87.0'
+       'User-Agent': 'MiAplicacion/1.0 (tuemail@dominio.com)'
     }
     response = requests.get(url, headers=headers)
 
