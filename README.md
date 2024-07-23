@@ -2,7 +2,7 @@
 como principiante en prgramacion con python, he creado esta herramineta donde puedes lanzar 5 diferentes tipos de phishing en tu equipo local, cada uno lo puedes configurar a tu gusto.
 
 Utiliza esta herramienta con responsabilidad, nadie se hara cargo de las cosas indevidas que haces con ella
-![como se deberia ver cuando has puesto los comandos necesarios](![image](https://github.com/user-attachments/assets/6af23aa8-e426-4266-8c94-900ddebc78eb)
+![como se deberia ver cuando has puesto los comandos necesarios](https://github.com/DIEGODEVPY/DoxPhish/blob/main/Screenshot 2024-07-23 184941.png)
 )
 ### Clonar el repositorio para termux
 ```sh
