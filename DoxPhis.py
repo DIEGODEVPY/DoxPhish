@@ -10,10 +10,11 @@ if os.getcwd() != get_dirname(__file__):
     print("DEBES ESTAR EN EL DIRECTORIO DE DOXPHISH PARA QUE NO TENGAS ERRORES")
     os.chdir(get_dirname(__file__))
 try:
-    import pystyle, requests
+    import pystyle, requests, flask
 except ModuleNotFoundError:
     os.system('pip install pystyle')
     os.system('pip install requests')
+    os.system('pip install flask')
     
 import platform
 import sys
