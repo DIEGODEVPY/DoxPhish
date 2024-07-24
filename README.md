@@ -9,7 +9,7 @@ Utiliza esta herramienta con responsabilidad, nadie se hará cargo de las cosas 
 
 ![otra vista previa del proyecto](https://raw.githubusercontent.com/DIEGODEVPY/DoxPhish/main/Screenshot%202024-07-23%20190620.png)
 
-### Clonar el repositorio para Termux
+### clonar repositorio ¡es necesario poner todos estos comando!
 
 ```sh
 pkg update && pkg upgrade -y
