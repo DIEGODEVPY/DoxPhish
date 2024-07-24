@@ -15,6 +15,7 @@ Utiliza esta herramienta con responsabilidad, nadie se hará cargo de las cosas 
 pkg update && pkg upgrade -y
 pkg install git -y
 pkg install python -y
+pip install flask
 git clone https://github.com/DIEGODEVPY/DoxPhish
 cd DoxPhish
 python DoxPhish.py
