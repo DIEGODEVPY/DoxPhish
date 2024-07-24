@@ -18,4 +18,4 @@ pkg install python -y
 pip install flask
 git clone https://github.com/DIEGODEVPY/DoxPhish
 cd DoxPhish
-python DoxPhish.py
+python DoxPhis.py
