@@ -29,8 +29,12 @@ def puertos():
 
 def reiniciar_script():
     import os
-    python = sys.executable
-    os.execv(python, [python] + sys.argv)
+    import platform
+    if platform.system() == "Windows":
+        zph_style.alert("ESTAS EN WINDOWS, NECESITAS EJECUTAR LA HERRAMIENTA DE NUEVO",0.01)
+    else:    
+        python = sys.executable
+        os.execv(python, [python] + sys.argv)
 
 def change_port():
 
