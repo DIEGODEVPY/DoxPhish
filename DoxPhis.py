@@ -143,8 +143,8 @@ def opciones():
  [01] DOX-UBICACION    [06] INFO-DE-IP 
  [02] DOX-FOTOS        [07] INFO-DE-UBICACION
  [03] DOX-VIDEOS       [08] INFO-FOTOS
- [04] DOX-DISPOSITIVO  [09] AYUDA
- [05] DOX-IP           [10] CREDITOS 
+ [04] DOX-DISPOSITIVO  [09] CREDITOS
+ [05] DOX-IP           [10] UNKNOWN 
 
 """ 
     colorate_time(options)
@@ -506,7 +506,20 @@ def main():
 
                 except TypeError:
                     zph_style.error("IP INVALIDA...")
-
+        elif ask_main in ["9","09"]:
+            while True: 
+                basic_banners()
+                print()
+                zph_style.to_style("MI GITHUB: ")
+                print("https://www.github.com/DIEGODEVPY")
+                print('')
+                zph_style.to_style("MI TIKTOK: ")
+                print('https://www.tiktok.com/@tm_diego_dev')
+                ask_for_exit = input(zph_style.to_askt("QUIERES SALIR(S/N)?"))
+                if ask_for_exit.lower() == 'n':
+                    pass
+                else:
+                    main()
         else:
             zph_style.error("INPUT INCORRECTO...")
 
