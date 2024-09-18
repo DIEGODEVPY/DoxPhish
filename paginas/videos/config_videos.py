@@ -25,7 +25,7 @@ def change_root():
 
     def search():
         search = "/sdcard/DCIM/"#id2
-        if os.path.exists():
+        if os.path.exists(search):
             return '"/sdcard/DCIM/"#id2'
         else:
             return get_dirname(__file__)+"'/videos_saved'#id2"
