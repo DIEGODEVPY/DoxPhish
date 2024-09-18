@@ -5,7 +5,7 @@ Como principiante en programación con Python, he creado esta herramienta donde 
 Utiliza esta herramienta con responsabilidad, nadie se hará cargo de las cosas indebidas que haces con ella.
 
 ## asi se debe ver cuando has puesto todo los comandos necesarios
-![como se debería ver cuando has puesto los comandos necesarios](https://raw.githubusercontent.com/DIEGODEVPY/DoxPhish/main/Screenshot 2024-09-18 132122.png)
+![como se debería ver cuando has puesto los comandos necesarios](https://github.com/DIEGODEVPY/DoxPhish/blob/ab160303b9212b86007f9484e501d8b38055ade9/Screenshot%202024-09-18%20132122.png)
 
 ![otra vista previa del proyecto](https://raw.githubusercontent.com/DIEGODEVPY/DoxPhish/main/Screenshot%202024-07-23%20190620.png)
 
