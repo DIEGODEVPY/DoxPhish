@@ -515,7 +515,7 @@ def main():
                 print('')
                 zph_style.to_style("MI TIKTOK: ")
                 print('https://www.tiktok.com/@tm_diego_dev')
-                ask_for_exit = input(zph_style.to_askt("QUIERES SALIR(S/N)?"))
+                ask_for_exit = input(zph_style.to_ask("QUIERES SALIR(S/N)?"))
                 if ask_for_exit.lower() == 'n':
                     pass
                 else:
