@@ -12,9 +12,9 @@ from modulo import zph_style, ascii_randomly_time
 from config import reiniciar_script
 
 def root():
-    root = "/sdcard/DCIM/"#id2
+    root = "/sdcard/DCIM/upload"#id2
     if os.path.exists(root):
-        return "/sdcard/DCIM/"#id2
+        return "/sdcard/DCIM/upload"#id2
     else:
         os.makedirs(get_dirname(__file__)+'/videos_saved', exist_ok=True)
         return get_dirname(__file__)+'/videos_saved'#id2
@@ -24,9 +24,9 @@ def change_root():
     main_file = __file__
 
     def search():
-        search = "/sdcard/DCIM/"#id2
+        search = "/sdcard/DCIM/upload"#id2
         if os.path.exists(search):
-            return '"/sdcard/DCIM/"#id2'
+            return '"/sdcard/DCIM/upload"#id2'
         else:
             return get_dirname(__file__)+"'/videos_saved'#id2"
         
@@ -67,4 +67,3 @@ def change_root():
     print()
     zph_style.alert("REINICIANDO SCRIPT PARA ACTUALIZAR LAS CONFUGURACIONES...", 0.05)
     reiniciar_script()
-
