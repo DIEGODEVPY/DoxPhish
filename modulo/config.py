@@ -32,6 +32,7 @@ def reiniciar_script():
     import platform
     if platform.system() == "Windows":
         zph_style.alert("ESTAS EN WINDOWS, NECESITAS EJECUTAR LA HERRAMIENTA DE NUEVO",0.01)
+        exit()
     else:    
         python = sys.executable
         os.execv(python, [python] + sys.argv)
